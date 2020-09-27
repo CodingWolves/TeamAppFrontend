@@ -3,6 +3,9 @@ import "./App.css";
 
 import { HashRouter, Route, Switch } from "react-router-dom";
 
+import { OpeningScreen } from "./components/OpeningScreen";
+import { SignIn } from "./components/SignIn";
+import { SignUp } from "./components/SignUp";
 import { Dashboard } from "./components/Dashboard";
 import { CreateGroup } from "./components/CreateGroup";
 
@@ -11,7 +14,10 @@ class App extends Component {
     return (
       <HashRouter>
         <Switch>
-          <Route exact path="/" component={ Dashboard } />
+          <Route exact path="/" component={ OpeningScreen } />
+          <Route exact path="/dashboard" component={ Dashboard } />
+          <Route exact path="/signIn" component={ SignIn } />
+          <Route exact path="/signUp" component={ SignUp } />
           <Route exact path="/createGroup" component={ CreateGroup } />
         </Switch>
       </HashRouter>

@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import '../styles/styles.scss'
+import React, { useState } from "react"
 
-import {Header} from "./Header"
+import { Header } from "./Header"
 
 export const Dashboard = () => {
 
     return (
         <div>
-            <Header isSignedIn={false}/>
+            <Header isSignedIn={true}/>
+            <p>Dashboard</p>
         </div>
     )
 }
