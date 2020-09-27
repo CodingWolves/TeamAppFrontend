@@ -1,0 +1,37 @@
+.header {
+    background: #3893c8 ;
+    display: grid;
+    grid-template-columns: auto 19rem;
+    align-items: center;
+    text-align: center;
+}
+
+.header_buttons {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    text-align: center;
+}
+
+.header_title {
+    font-size: 4rem;
+    color: #F5F5F5;
+    text-align: left;
+    margin: 2rem;
+}
+
+.header_button {
+    font-size: 2rem;
+    text-align: left;
+    color: #3893c8;
+    background: #F5F5F5;
+    text-align: center;
+    margin: 1vh;
+}
+
+.header_hello_text {
+    color: #F5F5F5;
+    font-size: 2rem;
+    text-align: center;
+    margin: 1vh;
+}
