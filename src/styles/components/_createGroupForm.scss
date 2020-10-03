@@ -1,0 +1,42 @@
+.title {
+    font-size: 6rem;
+    color: #3893c8;
+    display: block;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.form_content {
+    // display: grid;
+    // grid-template-columns: auto;
+    // float: right;
+    // margin-top: 5rem;
+    // margin-right: 8rem;
+    // margin-left: 8rem;
+    text-align: center;
+    margin: 2rem;
+    // margin-left: 40rem;
+    // margin-right: 40rem;
+}
+
+.input_content {
+    font-size: 2rem;
+    // width: 50rem;
+    // margin: 1.5rem;
+    // margin-bottom: 1.5rem;
+    // margin-top: 1.5rem;
+    margin: 1.5rem;
+    border-radius: 0.5rem;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+}
+
+.form_button {
+    font-size: 2rem;
+    height: 3rem;
+    width: 23rem;
+    margin: 2rem;
+    border-radius: 0.4rem;
+    align-self: center;
+}

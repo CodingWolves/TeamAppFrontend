@@ -1,7 +1,7 @@
 import React from "react"
 import { Link } from 'react-router-dom';
 
-export const Header = (props) => (
+    export const Header = (props) => (
     <div className="header">
         <span className="header_title">Join me</span>
 
@@ -15,12 +15,12 @@ export const Header = (props) => (
                 </Link>
             </div>
         }
-
+        
         {props.isSignedIn &&
             <div className="header_buttons">
-                <Link to="/createGroup">
+                {!props.isInCreateGroup && <Link to="/createGroup">
                     <button className="header_button">create study group</button>
-                </Link>
+                </Link>}
                 <span className="header_hello_text">Hello Nadav</span>
             </div>
         }

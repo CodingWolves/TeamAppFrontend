@@ -8,6 +8,7 @@ import { SignIn } from "./components/SignIn";
 import { SignUp } from "./components/SignUp";
 import { Dashboard } from "./components/Dashboard";
 import { CreateGroup } from "./components/CreateGroup";
+import { Group } from "./components/Group";
 
 class App extends Component {
   render() {
@@ -19,6 +20,7 @@ class App extends Component {
           <Route exact path="/signIn" component={ SignIn } />
           <Route exact path="/signUp" component={ SignUp } />
           <Route exact path="/createGroup" component={ CreateGroup } />
+          <Route exact path="/group" component={ Group } />
         </Switch>
       </HashRouter>
     );
