@@ -5,7 +5,7 @@ import { Header } from "./Header"
 
 export const OpeningScreen = () => (
     <div>
-        <Header isSignedIn={false}/>
+        <Header/>
         <p className="about_p">about Join me</p>
         <img className="image"
             src={require("../images/learning.png")}>
