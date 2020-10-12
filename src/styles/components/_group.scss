@@ -1,0 +1,32 @@
+.big_card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 5rem;
+    margin-top: 4rem;
+    margin-left: 6rem;
+    margin-right: 6rem;
+    text-align: center;
+}
+
+.card_title {
+    font-size: 4rem;
+    font-weight: bold;
+    display: block;
+    padding-top: 1.5rem;
+}
+
+.card_field {
+    width: 46%;
+    font-size: 2rem;
+    display: inline-block;
+    text-align: left;
+    margin-left: 4rem;
+    margin: 2rem;
+}
+
+.card_button {
+    font-size: 2rem;
+    text-align: center;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    border-radius: 0.5rem;
+}

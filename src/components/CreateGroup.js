@@ -8,7 +8,7 @@ const coursesOptions = [{value: "1", label: "Differential and Integral Calculus1
     {value: "2", label: "Differential and Integral Calculus2"}, {value: "3", label: "Physics - Mechanics"},
     {value: "4", label: "Linear Algebra"}, {value: "5", label: "Introduction to Programming"},
     {value: "6", label: "Digital Logic Design"}, {value: "7", label: "Object Oriented Programming"},
-    {value: "8", label: "Other"}]
+    {value: "8", label: "Othver"}]
 const togetherOptions = [{value: "1", label: "Yes"}, {value: "2", label: "No"}]
 
 export const CreateGroup = () => {
