@@ -1,11 +1,11 @@
 import React from "react"
 import { Link } from 'react-router-dom';
 
-    export const Header = (props) => (
+export const Header = (props) => (
     <div className="header">
         <span className="header_title">Join me</span>
 
-        {!props.isSignedIn &&
+        {!props.isSignedIn && !props.isInSignIn &&
             <div className="header_buttons">
                 <Link to="/signIn">
                     <button className="header_button">Sign in</button>
@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
             </div>
         }
         
-        {props.isSignedIn &&
+        {props.isSignedIn && !props.isInSignIn &&
             <div className="header_buttons">
                 {!props.isInCreateGroup && <Link to="/createGroup">
                     <button className="header_button">create study group</button>

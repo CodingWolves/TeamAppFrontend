@@ -85,9 +85,9 @@ export const CreateGroup = () => {
             // .then(res => {
             //     console.log(res);
             // });
-          } else {
+        } else {
             e.preventDefault();
-          }
+        }
     }
 
     const showError = (text) => {
@@ -121,7 +121,7 @@ export const CreateGroup = () => {
         <div>
             <Header isSignedIn={true} isInCreateGroup={true} />
 
-            <span className="title">Create group</span>
+            <span className="title_form">Create group</span>
 
             <form className="form_content">
                 <input className="input_content" id="name" placeholder="name"
