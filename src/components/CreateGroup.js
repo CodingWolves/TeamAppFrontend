@@ -3,12 +3,13 @@ import Select from 'react-select'
 import axios from "axios";
 
 import { Header } from "./Header"
+import { showError, clearError } from "../useful_functionality/formError"
 
 const coursesOptions = [{value: "1", label: "Differential and Integral Calculus1"}, 
     {value: "2", label: "Differential and Integral Calculus2"}, {value: "3", label: "Physics - Mechanics"},
     {value: "4", label: "Linear Algebra"}, {value: "5", label: "Introduction to Programming"},
     {value: "6", label: "Digital Logic Design"}, {value: "7", label: "Object Oriented Programming"},
-    {value: "8", label: "Othver"}]
+    {value: "8", label: "Other"}]
 const togetherOptions = [{value: "1", label: "Yes"}, {value: "2", label: "No"}]
 
 export const CreateGroup = () => {
@@ -24,7 +25,7 @@ export const CreateGroup = () => {
     const [description, setDescription] = useState();
 
     const create = (e) => {
-        console.log(course, subject, where, when, long, participantsNum, together, description);
+        console.log(name, course, subject, where, when, long, participantsNum, together, description);
         clearError()
         let flag = 0;
 
@@ -90,18 +91,6 @@ export const CreateGroup = () => {
         }
     }
 
-    const showError = (text) => {
-        let error = document.querySelector('#errorText');      
-        error.innerHTML += "<p>" + text + "</p>";
-        error.style.height = "auto";
-    }
-
-    const clearError = () => {
-        let error = document.querySelector('#errorText');
-        error.style.height = "0px";
-        error.innerHTML = "";
-    }
-
     const selectCourse = (labelCourse) => {
         let otherCourse = document.querySelector('#otherCourse');
 
@@ -127,7 +116,7 @@ export const CreateGroup = () => {
                 <input className="input_content" id="name" placeholder="name"
                     onChange={ e => (setName(e.target.value), clearError()) }
                 />
-                <Select className="select_content" 
+                <Select className="select_content small_select_content" 
                     options={coursesOptions}
                     placeholder="Please select course"
                     onChange={ e => (selectCourse(e.label), clearError()) }
@@ -157,7 +146,7 @@ export const CreateGroup = () => {
                 <input className="input_content" id="participantsNum" placeholder="participants number"
                     onChange={ e => (setParticipantsNum(e.target.value), clearError()) }
                 />
-                <Select className="select_content" 
+                <Select className="select_content small_select_content" 
                     options={togetherOptions}
                     placeholder="Study together?" 
                     onChange={ e => (setTogether(e.label), clearError()) }
