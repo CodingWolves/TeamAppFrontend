@@ -26,43 +26,43 @@ export const CreateGroup = () => {
 
     const create = (e) => {
         console.log(name, course, subject, where, when, long, participantsNum, together, description);
-        clearError()
+        clearError(document.querySelector('#errorText'))
         let flag = 0;
 
-        if (name === "" || course === undefined) {
-            showError("name");
+        if (name === "" || name === undefined) {
+            showError(document.querySelector('#errorText'), "name");
             flag = 1;
         }
         if (course === "Please select course" || course === undefined) {
-            showError("course");
+            showError(document.querySelector('#errorText'), "course");
             flag = 1;
         }
         if (subject === '' || subject === undefined) {
-            showError("subject");
+            showError(document.querySelector('#errorText'), "subject");
             flag = 1;
         }
         if (where === '' || where === undefined) {
-            showError("where");
+            showError(document.querySelector('#errorText'), "where");
             flag = 1;
         }
         if (when === '' || when === undefined) {
-            showError("when");
+            showError(document.querySelector('#errorText'), "when");
             flag = 1;
         }
         if (long === '' || long === undefined) {
-            showError("long");
+            showError(document.querySelector('#errorText'), "long");
             flag = 1;
         }
         if (participantsNum === '' || participantsNum === undefined) {
-            showError("participantsNum");
+            showError(document.querySelector('#errorText'), "participantsNum");
             flag = 1;
         }
         if (together === 'Study together?' || together === undefined) {
-            showError("together");
+            showError(document.querySelector('#errorText'), "together");
             flag = 1;
         }
         if (description === '' || description === undefined) {
-            showError("description");
+            showError(document.querySelector('#errorText'), "description");
             flag = 1;
         }
 
@@ -114,47 +114,77 @@ export const CreateGroup = () => {
 
             <form className="form_content">
                 <input className="input_content" id="name" placeholder="name"
-                    onChange={ e => (setName(e.target.value), clearError()) }
+                    onChange={ 
+                        e => (setName(e.target.value), 
+                        clearError(document.querySelector('#errorText'))) 
+                    }
                 />
-                <Select className="select_content small_select_content" 
+                <Select className="select_content" styles 
                     options={coursesOptions}
                     placeholder="Please select course"
-                    onChange={ e => (selectCourse(e.label), clearError()) }
+                    onChange={ 
+                        e => (selectCourse(e.label), 
+                        clearError(document.querySelector('#errorText')))
+                    }
                 />
                 <br />
 
                 <input className="hidden_input" id="otherCourse" placeholder="other course"
-                    onChange={ e => (setCourse(e.target.value), clearError()) }
+                    onChange={ 
+                        e => (setCourse(e.target.value), 
+                        clearError(document.querySelector('#errorText'))) 
+                    }
                 />
 
                 <input className="input_content" id="subject" placeholder="subject"
-                    onChange={ e => (setSubject(e.target.value), clearError()) }
+                    onChange={ 
+                        e => (setSubject(e.target.value), 
+                        clearError(document.querySelector('#errorText'))) 
+                    }
                 />
                 <input className="input_content" id="where" placeholder="where"
-                    onChange={ e => (setWhere(e.target.value), clearError()) }
+                    onChange={ 
+                        e => (setWhere(e.target.value), 
+                        clearError(document.querySelector('#errorText'))) 
+                    }
                 />
                 <br />
 
                 <input className="input_content" id="when" placeholder="when"
-                    onChange={ e => (setWhen(e.target.value), clearError()) }
+                    onChange={ 
+                        e => (setWhen(e.target.value), 
+                        clearError(document.querySelector('#errorText'))) 
+                    }
                 />
                 <input className="input_content" id="long" placeholder="how long"
-                    onChange={ e => (setLong(e.target.value), clearError()) }
+                    onChange={ 
+                        e => (setLong(e.target.value), 
+                        clearError(document.querySelector('#errorText'))) 
+                    }
                 />
                 <br />
 
                 <input className="input_content" id="participantsNum" placeholder="participants number"
-                    onChange={ e => (setParticipantsNum(e.target.value), clearError()) }
+                    onChange={ 
+                        e => (setParticipantsNum(e.target.value), 
+                        clearError(document.querySelector('#errorText'))) 
+                    }
                 />
-                <Select className="select_content small_select_content" 
+                <Select className="select_content" 
                     options={togetherOptions}
                     placeholder="Study together?" 
-                    onChange={ e => (setTogether(e.label), clearError()) }
+                    onChange={ 
+                        e => (setTogether(e.label), 
+                        clearError(document.querySelector('#errorText')))
+                    }
                 />
                 <br />
 
                 <input className="input_content" id="description" placeholder="description"
-                    onChange={ e => (setDescription(e.target.value), clearError()) }
+                    onChange={ 
+                        e => (setDescription(e.target.value), 
+                        clearError(document.querySelector('#errorText')))
+                    }
                 />
                 <br />
                 

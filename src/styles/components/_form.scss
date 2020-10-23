@@ -12,26 +12,19 @@
 }
 
 .input_content {
-    width: 247px;
-    height: 27px;
+    width: 248px;
+    height: 32px;
     font-size: 2rem;
     margin: 1.5rem;
     border-radius: 0.5rem;
-}
-
-.big_select_content {
-    width: 494px;
-}
-
-.small_select_content {
-    width: 254px;
 }
 
 .select_content {
-    height: 31px;
+    width: 256px;
     font-size: 2rem;
     margin: 1.5rem;
     border-radius: 0.5rem;
+    text-align: left;
     display: inline-block;
 }
 
@@ -53,10 +46,14 @@
 .image_button {
     width: 40vw;
     min-width: 250px;
-    max-width: 400px;
+    max-width: 360px;
     max-height: 500px;
     font-size: 2rem;
     font-weight: bold;
     margin: 1.5rem;
     border-radius: 8px;
+    border-style: solid;
+    border-color: black;
+    border-width: 2px;
+    display: inline-block;
 }

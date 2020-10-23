@@ -1,12 +1,10 @@
 
-export const showError = (text) => {
-    let error = document.querySelector('#errorText');      
+export const showError = (error, text) => {
     error.innerHTML += "<p>" + text + "</p>";
     error.style.height = "auto";
 }
 
-export const clearError = () => {
-    let error = document.querySelector('#errorText');
+export const clearError = (error) => {
     error.style.height = "0px";
     error.innerHTML = "";
 }
