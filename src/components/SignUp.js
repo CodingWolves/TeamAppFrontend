@@ -8,10 +8,7 @@ import { showError, clearError } from "../useful_functionality/formError"
 const coursesOptions = [{value: "1", label: "Differential and Integral Calculus1"}, 
     {value: "2", label: "Differential and Integral Calculus2"}, {value: "3", label: "Physics - Mechanics"},
     {value: "4", label: "Linear Algebra"}, {value: "5", label: "Introduction to Programming"},
-    {value: "6", label: "Digital Logic Design"}, {value: "7", label: "Object Oriented Programming"},]
-    // {value: "8", label: "All"}]
-
-// var photoType;
+    {value: "6", label: "Digital Logic Design"}, {value: "7", label: "Object Oriented Programming"}]
 
 export const SignUp = () => {
     // const [coursesOptions, setCoursesOptions] = useState([]);
@@ -21,7 +18,7 @@ export const SignUp = () => {
     const [interested, setInterested] = useState([]);
     const [imgSrc, setImgSrc] = useState({file: require("../images/add-photo.png")});
     
-    const forLabel = (window.cordova.platformId === "browser" ? "browser" : "not-browser")
+    const forLabel = ""//= (window.cordova.platformId === "browser" ? "browser" : "not-browser")
 
     const signUp = (e) => {
         console.log(name, degree, institution, interested);
@@ -57,19 +54,6 @@ export const SignUp = () => {
         }
     }
 
-    const selectCourse = (labelCourse) => {
-        let selectCourses = document.querySelector('#selectCourses');
-        // console.log(selectCourses)
-        if (labelCourse === "All") {
-            
-            return;
-        }
-        setInterested(labelCourse)
-        // otherCourse.className = "hidden_input"
-        // otherCourse.style = ``
-        // setCourse(labelCourse);
-    }
-
     const onImageChange = (event) => {
         if (event.target.files && event.target.files[0]) {
             let reader = new FileReader();
@@ -84,17 +68,16 @@ export const SignUp = () => {
         console.log(navigator);
         console.log(global);
         
-        // navigator.app_lang = navigator.language;
+        // e.preventDefault();
         navigator.notification.confirm(
             "Where do you want to take the picture from?",
             phoneConfirmCallback,
             "Picture",
             ["Camera", "Gallery"] // the order is important for the callback function, up to 3 options on android
         );
-        // photoType = "path";
-    };
+    }
     
-    function phoneConfirmCallback(selected_index) {
+    const phoneConfirmCallback = (selected_index) => {
         // alert(JSON.stringify(clicked_index, null, 4));
         var cameraOptions = {
             correctOrientation: true,
@@ -108,12 +91,30 @@ export const SignUp = () => {
             cameraOptions.sourceType = window.Camera.PictureSourceType.SAVEDPHOTOALBUM;
         }
         navigator.camera.cleanup(); // removes the last image taken on ios
-        // navigator.camera.getPicture((pictureSuccess, pictureError, cameraOptions);
         navigator.camera.getPicture(
             (picture_path => setImgSrc({file: picture_path})),
             (msg => alert(msg)),
             cameraOptions
         )
+    }
+
+    const selectCours = (e) => {
+        if (e === null || e.length === 0) {
+            setInterested([])
+            return
+        }
+        
+        var exists;
+        if (e.length < interested.length) {
+            interested.map(savedCourse => (
+                exists = e.some(currentCourse => (savedCourse === currentCourse.label)),
+                exists === false ? interested.splice(interested.indexOf(savedCourse), 1) : null
+            ))
+            return
+        }
+
+        interested.push(e[e.length-1].label)
+        clearError(document.querySelector('#errorText'))
     }
 
     return  (
@@ -155,18 +156,15 @@ export const SignUp = () => {
                     </label>
 
                     <input style={{ display: "none" }} id="browser" type="file" onChange={ onImageChange }/> 
-                    <button style={{ display: "none" }} id="not-browser" onClick={ takePhoto }/>
+                    <button style={{ display: "none" }} id="not-browser" type="button" onClick={ takePhoto }/>
                 </div>
                 <br />
 
-                <Select className="basic-multi-select select_content"
+                <Select className="select_content"
                     isMulti id="selectCourses"
                     options={coursesOptions}
                     placeholder="interested in courses"
-                    onChange={ 
-                        e => (e === null ? setInterested([]) : selectCourse(e.label), 
-                        clearError(document.querySelector('#errorText')))
-                    }
+                    onChange={selectCours}
                 />
 
                 <p id="errorText" style={{ fontSize: "20px", color: "red",

@@ -8,8 +8,9 @@
 }
 
 .image {
+    min-width: 20vw;
+    max-width: 60vw;
     min-height: 40vh;
-    max-width: 360px;
     max-height: 60vh;
     display: block;
     margin-left: auto;
