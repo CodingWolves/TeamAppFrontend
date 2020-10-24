@@ -1,6 +1,6 @@
 import React, { useState } from "react"
-import { Link } from 'react-router-dom'
-import Select from 'react-select'
+import { Link } from "react-router-dom"
+import Select from "react-select"
 
 import { Header } from "./Header"
 import { showError, clearError } from "../useful_functionality/formError"
@@ -12,6 +12,9 @@ const coursesOptions = [{value: "1", label: "Differential and Integral Calculus1
 
 export const SignUp = () => {
     // const [coursesOptions, setCoursesOptions] = useState([]);
+    const [mail, setMail] = useState();
+    const [password, setPassword] = useState();
+    const [confirmPassword, setConfirmPassword] = useState();
     const [name, setName] = useState();
     const [degree, setDegree] = useState();
     const [institution, setInstitution] = useState();
@@ -68,7 +71,6 @@ export const SignUp = () => {
         console.log(navigator);
         console.log(global);
         
-        // e.preventDefault();
         navigator.notification.confirm(
             "Where do you want to take the picture from?",
             phoneConfirmCallback,
@@ -131,8 +133,45 @@ export const SignUp = () => {
                     }
                 />
                 <br />
+                
+                <input className="input_content" id="mail" placeholder="mail"
+                    onChange={ 
+                        e => (setMail(e.target.value), 
+                        clearError(document.querySelector('#errorText'))) 
+                    }
+                />
+                <br />
+                
+                <input className="input_content" id="password" type="password" placeholder="password"
+                    style={{ margin: 0, width: "210px" }}
+                    onChange={ 
+                        e => (setPassword(e.target.value), 
+                        clearError(document.querySelector('#errorText'))) 
+                    }
+                />
+                <button className="eye_button" style={{ marginRight: "3rem" }}>
+                    <img className="eye_image"
+                        id="userPhoto"
+                        src={require("../images/eye_slash.png")}
+                    />
+                </button>
+                
+                <input className="input_content" id="confirmPassword" type="password" placeholder="confirm password"
+                    style={{ margin: 0, width: "210px" }}
+                    onChange={ 
+                        e => (setConfirmPassword(e.target.value), 
+                        clearError(document.querySelector('#errorText'))) 
+                    }
+                />
+                <button className="eye_button">
+                    <img className="eye_image"
+                        id="userPhoto"
+                        src={require("../images/eye_slash.png")}
+                    />
+                </button>
+                <br />
 
-                <input className="input_content" id="degree" placeholder="degree"
+                <input className="input_content" id="degree" placeholder="degree" 
                     onChange={ 
                         e => (setDegree(e.target.value), 
                         clearError(document.querySelector('#errorText'))) 
@@ -150,7 +189,7 @@ export const SignUp = () => {
                     <label for={forLabel}>
                         <img
                             className="image"
-                            id="photo"
+                            id="userPhoto"
                             src={imgSrc.file}
                         />
                     </label>
