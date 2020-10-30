@@ -3,7 +3,8 @@ import { Link } from "react-router-dom"
 import Select from "react-select"
 
 import { Header } from "./Header"
-import { showError, clearError } from "../useful_functionality/formError"
+import { showError, clearError } from "../useful_functionality/form"
+import { PasswordInput } from "./PasswordInput"
 
 const coursesOptions = [{value: "1", label: "Differential and Integral Calculus1"}, 
     {value: "2", label: "Differential and Integral Calculus2"}, {value: "3", label: "Physics - Mechanics"},
@@ -12,6 +13,7 @@ const coursesOptions = [{value: "1", label: "Differential and Integral Calculus1
 
 export const SignUp = () => {
     // const [coursesOptions, setCoursesOptions] = useState([]);
+
     const [mail, setMail] = useState();
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
@@ -24,29 +26,45 @@ export const SignUp = () => {
     const forLabel = ""//= (window.cordova.platformId === "browser" ? "browser" : "not-browser")
 
     const signUp = (e) => {
-        console.log(name, degree, institution, interested);
-        clearError(document.querySelector('#errorText'))
+        console.log(mail, password, confirmPassword, name, degree, institution, interested);
+        clearError()
         let flag = 0;
 
+        if (mail === "" || mail === undefined) {
+            showError("mail");
+            flag = 1;
+        }
+        if (password === "" || password === undefined) {
+            showError("password");
+            flag = 1;
+        }
+        if (confirmPassword === "" || confirmPassword === undefined) {
+            showError("confirmPassword");
+            flag = 1;
+        }
+        if (confirmPassword !== password) {
+            showError("diffrent pass in pass and configpass")
+        }
         if (name === "" || name === undefined) {
-            showError(document.querySelector('#errorText'), "name");
+            showError("name");
             flag = 1;
         }
         if (degree === "Please select course" || degree === undefined) {
-            showError(document.querySelector('#errorText'), "degree");
+            showError("degree");
             flag = 1;
         }
         if (institution === '' || institution === undefined) {
-            showError(document.querySelector('#errorText'), "institution");
+            showError("institution");
             flag = 1;
         }
-        var photoSrc = document.getElementById("photo").src;
+        var photoSrc = document.getElementById("userPhoto").src;
+        console.log(photoSrc)
         if (photoSrc == require("../images/add-photo.png")){
-            showError(document.querySelector('#errorText'), "photoSrc");
+            showError("photoSrc");
             flag = 1;
         }
         if (interested.length === 0) {
-            showError(document.querySelector('#errorText'), "interested");
+            showError("interested");
             flag = 1;
         }
 
@@ -116,7 +134,7 @@ export const SignUp = () => {
         }
 
         interested.push(e[e.length-1].label)
-        clearError(document.querySelector('#errorText'))
+        clearError()
     }
 
     return  (
@@ -127,61 +145,24 @@ export const SignUp = () => {
 
             <form className="form_content">
                 <input className="input_content" id="name" placeholder="name"
-                    onChange={ 
-                        e => (setName(e.target.value), 
-                        clearError(document.querySelector('#errorText'))) 
-                    }
+                    onChange={ e => (setName(e.target.value), clearError()) }
                 />
                 <br />
                 
                 <input className="input_content" id="mail" placeholder="mail"
-                    onChange={ 
-                        e => (setMail(e.target.value), 
-                        clearError(document.querySelector('#errorText'))) 
-                    }
+                    onChange={ e => (setMail(e.target.value), clearError()) }
                 />
                 <br />
                 
-                <input className="input_content" id="password" type="password" placeholder="password"
-                    style={{ margin: 0, width: "210px" }}
-                    onChange={ 
-                        e => (setPassword(e.target.value), 
-                        clearError(document.querySelector('#errorText'))) 
-                    }
-                />
-                <button className="eye_button" style={{ marginRight: "3rem" }}>
-                    <img className="eye_image"
-                        id="userPhoto"
-                        src={require("../images/eye_slash.png")}
-                    />
-                </button>
-                
-                <input className="input_content" id="confirmPassword" type="password" placeholder="confirm password"
-                    style={{ margin: 0, width: "210px" }}
-                    onChange={ 
-                        e => (setConfirmPassword(e.target.value), 
-                        clearError(document.querySelector('#errorText'))) 
-                    }
-                />
-                <button className="eye_button">
-                    <img className="eye_image"
-                        id="userPhoto"
-                        src={require("../images/eye_slash.png")}
-                    />
-                </button>
+                <PasswordInput setPassword={setPassword} id="password"/>
+                <PasswordInput setPassword={setConfirmPassword} id="confirmPassword"/>
                 <br />
 
                 <input className="input_content" id="degree" placeholder="degree" 
-                    onChange={ 
-                        e => (setDegree(e.target.value), 
-                        clearError(document.querySelector('#errorText'))) 
-                    }
+                    onChange={ e => (setDegree(e.target.value), clearError()) }
                 />
                 <input className="input_content" id="institution" placeholder="academic institution"
-                    onChange={ 
-                        e => (setInstitution(e.target.value), 
-                        clearError(document.querySelector('#errorText')))
-                    }
+                    onChange={ e => (setInstitution(e.target.value), clearError()) }
                 />
                 <br />
                 
