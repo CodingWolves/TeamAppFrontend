@@ -2,12 +2,15 @@ import React, { useState } from "react"
 import axios from "axios";
 
 import { Header } from "./Header"
+import { Chat } from "./Chat"
 
 const group = {id: "1", groupName: "1", course: "1", subject: "1", institution: "1", where: "1", when: "1",
         long: "1", participantsNum: "1", together: true, description: "1"}
 
 export const Group = (props) => {
     // const [group, setGroup] = useState();
+
+    var afterJoin = props.location.state !== undefined ? true : false
     
     //for building, after delete
     var groupId = props.location.state;
@@ -50,7 +53,7 @@ export const Group = (props) => {
                     <span className="card_field">description: {group.description}</span>
                 </div>
 
-                <button className="card_button" onClick={ joinGroup }>Join me</button>
+                {afterJoin ? <Chat /> : <button className="card_button" onClick={ joinGroup }>Join me</button>}
             </div>
         </div>
     )

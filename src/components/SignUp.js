@@ -1,18 +1,14 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import Select from "react-select"
+import axios from "axios";
 
 import { Header } from "./Header"
 import { showError, clearError } from "../useful_functionality/form"
 import { PasswordInput } from "./PasswordInput"
 
-const coursesOptions = [{value: "1", label: "Differential and Integral Calculus1"}, 
-    {value: "2", label: "Differential and Integral Calculus2"}, {value: "3", label: "Physics - Mechanics"},
-    {value: "4", label: "Linear Algebra"}, {value: "5", label: "Introduction to Programming"},
-    {value: "6", label: "Digital Logic Design"}, {value: "7", label: "Object Oriented Programming"}]
-
-export const SignUp = () => {
-    // const [coursesOptions, setCoursesOptions] = useState([]);
+export const SignUp = (props) => {
+    const [coursesOptions, setCoursesOptions] = useState([]);
 
     const [mail, setMail] = useState();
     const [password, setPassword] = useState();
@@ -23,7 +19,13 @@ export const SignUp = () => {
     const [interested, setInterested] = useState([]);
     const [imgSrc, setImgSrc] = useState({file: require("../images/add-photo.png")});
     
-    const forLabel = ""//= (window.cordova.platformId === "browser" ? "browser" : "not-browser")
+    const forLabel = (window.cordova.platformId === "browser" ? "browser" : "not-browser")
+    var userUpdate = props.location.state !== undefined ? true : false
+
+    axios.get("http://localhost:3000/courses").then(res => {
+        console.log(res);
+        setCoursesOptions([{value: "0", label: "All"}, ...res.data])
+    })
 
     const signUp = (e) => {
         console.log(mail, password, confirmPassword, name, degree, institution, interested);
@@ -59,7 +61,7 @@ export const SignUp = () => {
         }
         var photoSrc = document.getElementById("userPhoto").src;
         console.log(photoSrc)
-        if (photoSrc == require("../images/add-photo.png")){
+        if (photoSrc === require("../images/add-photo.png")){
             showError("photoSrc");
             flag = 1;
         }
@@ -69,7 +71,20 @@ export const SignUp = () => {
         }
 
         if (flag === 0) {
-            console.log("post SignUp")
+            axios.post("http://127.0.0.1:5000/createGroup", {
+                data: {
+                    email: mail,
+                    name: name,
+                    password: password,
+                    degree: degree,
+                    institution: institution,
+                    image: "",
+                    interested: interested
+                }
+            })
+            .then(res => {
+                console.log(res);
+            });
         } else {
             e.preventDefault();
         }
@@ -119,29 +134,31 @@ export const SignUp = () => {
     }
 
     const selectCours = (e) => {
+        clearError()
+
         if (e === null || e.length === 0) {
             setInterested([])
             return
         }
+
+        if (e[e.length-1].label == "All") {
+            setInterested(coursesOptions.slice(1, coursesOptions.length))
+            return
+        }
         
-        var exists;
         if (e.length < interested.length) {
-            interested.map(savedCourse => (
-                exists = e.some(currentCourse => (savedCourse === currentCourse.label)),
-                exists === false ? interested.splice(interested.indexOf(savedCourse), 1) : null
-            ))
+            setInterested(e)
             return
         }
 
-        interested.push(e[e.length-1].label)
-        clearError()
+        interested.push(e[e.length-1])
     }
-
+    
     return  (
         <div>
             <Header isInSignIn={true} />
 
-            <span className="title_form">Sign Up</span>
+            <span className="title_form">{userUpdate ? "Update" : "Sign Up"}</span>
 
             <form className="form_content">
                 <input className="input_content" id="name" placeholder="name"
@@ -149,14 +166,17 @@ export const SignUp = () => {
                 />
                 <br />
                 
-                <input className="input_content" id="mail" placeholder="mail"
+                <input className="input_content" id="mail" placeholder="mail" 
+                    disabled={(userUpdate) ? "disabled" : ""}
                     onChange={ e => (setMail(e.target.value), clearError()) }
                 />
                 <br />
                 
-                <PasswordInput setPassword={setPassword} id="password"/>
-                <PasswordInput setPassword={setConfirmPassword} id="confirmPassword"/>
-                <br />
+                {!userUpdate && <div>
+                    <PasswordInput setPassword={setPassword} id="password" />
+                    <PasswordInput setPassword={setConfirmPassword} id="confirmPassword" />
+                    <br />
+                </div>}
 
                 <input className="input_content" id="degree" placeholder="degree" 
                     onChange={ e => (setDegree(e.target.value), clearError()) }
@@ -167,7 +187,7 @@ export const SignUp = () => {
                 <br />
                 
                 <div className="image_button">
-                    <label for={forLabel}>
+                    <label htmlFor={forLabel}>
                         <img
                             className="image"
                             id="userPhoto"
@@ -179,19 +199,20 @@ export const SignUp = () => {
                     <button style={{ display: "none" }} id="not-browser" type="button" onClick={ takePhoto }/>
                 </div>
                 <br />
-
+                
                 <Select className="select_content"
                     isMulti id="selectCourses"
                     options={coursesOptions}
+                    value={interested}
                     placeholder="interested in courses"
-                    onChange={selectCours}
+                    onChange={ selectCours }
                 />
 
                 <p id="errorText" style={{ fontSize: "20px", color: "red",
                     display: "flexbox", margin: "1px 0 0 0", textAlign: "center"}}>
                 </p>
 
-                <button className="form_button" onClick={ signUp }>Sign Up</button>
+                <button className="form_button" onClick={ signUp }>{userUpdate ? "Update" : "Sign Up"}</button>
             </form>
         </div>
     )

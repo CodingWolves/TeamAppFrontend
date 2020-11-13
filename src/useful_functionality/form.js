@@ -1,16 +1,16 @@
 
 export const showError = (errorText) => {
-    var errorLabel = document.getElementById("errorText");
+    var errorLabel = document.getElementById("errorText")
 
-    errorLabel.innerHTML += "<p>" + errorText + "</p>";
-    errorLabel.style.height = "auto";
+    errorLabel.innerHTML += "<p>" + errorText + "</p>"
+    errorLabel.style.height = "auto"
 }
 
 export const clearError = () => {
-    var errorLabel = document.getElementById("errorText");
+    var errorLabel = document.getElementById("errorText")
 
-    errorLabel.style.height = "0px";
-    errorLabel.innerHTML = "";
+    errorLabel.style.height = "0px"
+    errorLabel.innerHTML = ""
 }
 
 export const showPassword = (inputLabelName, imageLabelName) => {
