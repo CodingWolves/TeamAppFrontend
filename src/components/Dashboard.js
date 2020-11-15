@@ -12,12 +12,13 @@ const groups = [{id: "1", groupName: "1", course: "1", subject: "1", institution
     {id: "4", groupName: "4", course: "4", subject: "4", institution: "4", where: "4", when: "4", long: "4",
         participantsNum: "4", together: false, description: "4"}]
 
-export const Dashboard = () => {
+export const Dashboard = (props) => {
     // const [groups, setGroups] = useState([]);
 
     return (
         <div>
-            <Header isSignedIn={true}/>
+            {console.log(props.location.state.name)}
+            <Header userName={props.location.state.name} isSignedIn={true}/>
             <div className="groups">
                 {groups.map(group => (
                     <GroupCard group={group} />

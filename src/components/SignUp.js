@@ -1,10 +1,10 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import Select from "react-select"
 import axios from "axios";
 
 import { Header } from "./Header"
-import { showError, clearError } from "../useful_functionality/form"
+import { serverUrl, showError, clearError } from "../useful_functionality/form"
 import { PasswordInput } from "./PasswordInput"
 
 export const SignUp = (props) => {
@@ -18,14 +18,16 @@ export const SignUp = (props) => {
     const [institution, setInstitution] = useState();
     const [interested, setInterested] = useState([]);
     const [imgSrc, setImgSrc] = useState({file: require("../images/add-photo.png")});
+    const [imageBase64, setImageBase64] = useState();
     
     const forLabel = (window.cordova.platformId === "browser" ? "browser" : "not-browser")
     var userUpdate = props.location.state !== undefined ? true : false
 
-    axios.get("http://localhost:3000/courses").then(res => {
-        console.log(res);
-        setCoursesOptions([{value: "0", label: "All"}, ...res.data])
-    })
+    useEffect(() => {
+        axios.get(serverUrl + "/courses").then(res => {
+            setCoursesOptions([{value: "0", label: "All"}, ...res.data])
+        })
+    }, []);
 
     const signUp = (e) => {
         console.log(mail, password, confirmPassword, name, degree, institution, interested);
@@ -33,34 +35,35 @@ export const SignUp = (props) => {
         let flag = 0;
 
         if (mail === "" || mail === undefined) {
-            showError("mail");
-            flag = 1;
+            showError("Please enter your email address")
+            flag = 1
         }
         if (password === "" || password === undefined) {
-            showError("password");
-            flag = 1;
+            showError("Please enter your password")
+            flag = 1
         }
         if (confirmPassword === "" || confirmPassword === undefined) {
-            showError("confirmPassword");
-            flag = 1;
+            showError("Please enter your confirm password")
+            flag = 1
         }
         if (confirmPassword !== password) {
             showError("diffrent pass in pass and configpass")
+            flag = 1
         }
         if (name === "" || name === undefined) {
-            showError("name");
-            flag = 1;
+            showError("Please enter your name")
+            flag = 1
         }
-        if (degree === "Please select course" || degree === undefined) {
-            showError("degree");
-            flag = 1;
+        if (degree === "" || degree === undefined) {
+            showError("Please enter your degree")
+            flag = 1
         }
         if (institution === '' || institution === undefined) {
-            showError("institution");
-            flag = 1;
+            showError("Please enter your institution")
+            flag = 1
         }
+        
         var photoSrc = document.getElementById("userPhoto").src;
-        console.log(photoSrc)
         if (photoSrc === require("../images/add-photo.png")){
             showError("photoSrc");
             flag = 1;
@@ -69,25 +72,47 @@ export const SignUp = (props) => {
             showError("interested");
             flag = 1;
         }
-
+        
         if (flag === 0) {
-            axios.post("http://127.0.0.1:5000/createGroup", {
+            axios.post(serverUrl + "/signUp", {
                 data: {
                     email: mail,
                     name: name,
                     password: password,
                     degree: degree,
                     institution: institution,
-                    image: "",
+                    image: imageBase64,
                     interested: interested
                 }
-            })
-            .then(res => {
+            }).then(res => {
                 console.log(res);
+                console.log("then");
+            }, error => {
+                console.log(error);
+                console.log("error");
+                e.preventDefault();
             });
+            console.log("after");
+            e.preventDefault();
         } else {
             e.preventDefault();
         }
+    }
+
+    const convertImgToBase64 = (url, callback, outputFormat) => {
+        var canvas = document.createElement("CANVAS");
+        var ctx = canvas.getContext("2d");
+        var img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.onload = function () {
+            canvas.height = img.height;
+            canvas.width = img.width;
+            ctx.drawImage(img, 0, 0);
+            var dataURL = canvas.toDataURL(outputFormat || "image/png");
+            canvas = null;
+            callback(dataURL);
+        };
+        img.src = url;
     }
 
     const onImageChange = (event) => {
@@ -95,6 +120,7 @@ export const SignUp = (props) => {
             let reader = new FileReader();
             reader.onload = (e) => {
                 setImgSrc({file: e.target.result});
+                convertImgToBase64(e.target.result, data => setImageBase64(data));
             };
             reader.readAsDataURL(event.target.files[0]);
         }
@@ -131,6 +157,7 @@ export const SignUp = (props) => {
             (msg => alert(msg)),
             cameraOptions
         )
+        convertImgToBase64(imgSrc.file, data => setImageBase64(data))
     }
 
     const selectCours = (e) => {
@@ -211,8 +238,10 @@ export const SignUp = (props) => {
                 <p id="errorText" style={{ fontSize: "20px", color: "red",
                     display: "flexbox", margin: "1px 0 0 0", textAlign: "center"}}>
                 </p>
-
-                <button className="form_button" onClick={ signUp }>{userUpdate ? "Update" : "Sign Up"}</button>
+                
+                {/* <Link to={{ pathname: "/dashboard", state: { name } }} > */}
+                    <button className="form_button" onClick={ signUp }>{userUpdate ? "Update" : "Sign Up"}</button>
+                {/* </Link> */}
             </form>
         </div>
     )

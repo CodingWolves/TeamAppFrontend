@@ -22,7 +22,7 @@ export const Header = (props) => (
                     <button className="header_button">create study group</button>
                 </Link>}
                 <Link to={{ pathname: "/signUp", state: { isUserUpdate: true, userId: "" } }}>
-                    <button className="header_button">Hello Nadav</button>
+                    <button className="header_button">Hello {props.userName}</button>
                 </Link>
                 {/* <span className="header_hello_text">Hello Nadav</span> */}
             </div>

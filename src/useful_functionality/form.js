@@ -1,4 +1,6 @@
 
+export const serverUrl = "http://localhost:3000";
+
 export const showError = (errorText) => {
     var errorLabel = document.getElementById("errorText")
 
