@@ -17,7 +17,6 @@ export const Dashboard = (props) => {
 
     return (
         <div>
-            {console.log(props.location.state.name)}
             <Header userName={props.location.state.name} isSignedIn={true}/>
             <div className="groups">
                 {groups.map(group => (

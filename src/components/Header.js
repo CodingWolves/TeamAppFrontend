@@ -21,7 +21,7 @@ export const Header = (props) => (
                 {!props.isInCreateGroup && <Link to="/createGroup">
                     <button className="header_button">create study group</button>
                 </Link>}
-                <Link to={{ pathname: "/signUp", state: { isUserUpdate: true, userId: "" } }}>
+                <Link to={{ pathname: "/signUp", state: { isUserUpdate: true } }}>
                     <button className="header_button">Hello {props.userName}</button>
                 </Link>
                 {/* <span className="header_hello_text">Hello Nadav</span> */}

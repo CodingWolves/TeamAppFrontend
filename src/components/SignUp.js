@@ -20,14 +20,24 @@ export const SignUp = (props) => {
     const [imgSrc, setImgSrc] = useState({file: require("../images/add-photo.png")});
     const [imageBase64, setImageBase64] = useState();
     
+    console.log(props.location.state)
     const forLabel = (window.cordova.platformId === "browser" ? "browser" : "not-browser")
-    var userUpdate = props.location.state !== undefined ? true : false
-
+    var userUpdate = props.location.state !== undefined ? (true, userDetails()) : false
+    
     useEffect(() => {
         axios.get(serverUrl + "/courses").then(res => {
             setCoursesOptions([{value: "0", label: "All"}, ...res.data])
         })
     }, []);
+
+    function userDetails() {
+        console.log("getUserDetails")
+        axios.get(serverUrl + "/user/details").then(res => {
+            console.log(res)
+        }, erroe => {
+            console.log(erroe);
+        })
+    }
 
     const signUp = (e) => {
         console.log(mail, password, confirmPassword, name, degree, institution, interested);
@@ -75,25 +85,20 @@ export const SignUp = (props) => {
         
         if (flag === 0) {
             axios.post(serverUrl + "/signUp", {
-                data: {
-                    email: mail,
-                    name: name,
-                    password: password,
-                    degree: degree,
-                    institution: institution,
-                    image: imageBase64,
-                    interested: interested
-                }
+                email: mail,
+                name: name,
+                password: password,
+                degree: degree,
+                institution: institution,
+                image: imageBase64,
+                interested: interested
             }).then(res => {
                 console.log(res);
-                console.log("then");
+                // alert("user created, welcome " + name)
             }, error => {
-                console.log(error);
-                console.log("error");
+                alert(error);
                 e.preventDefault();
             });
-            console.log("after");
-            e.preventDefault();
         } else {
             e.preventDefault();
         }
@@ -239,9 +244,9 @@ export const SignUp = (props) => {
                     display: "flexbox", margin: "1px 0 0 0", textAlign: "center"}}>
                 </p>
                 
-                {/* <Link to={{ pathname: "/dashboard", state: { name } }} > */}
+                <Link to={{ pathname: "/dashboard", state: { name } }} >
                     <button className="form_button" onClick={ signUp }>{userUpdate ? "Update" : "Sign Up"}</button>
-                {/* </Link> */}
+                </Link>
             </form>
         </div>
     )
