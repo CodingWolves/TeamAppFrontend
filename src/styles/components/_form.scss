@@ -29,10 +29,23 @@
 }
 
 .form_button {
-    font-size: 2rem;
+    font-size: 2.5rem;
     width: 26rem;
     margin: 2rem;
     border-radius: 0.5rem;
+}
+
+.link_to_button {
+    width: 240px;
+    height: 32px;
+    display: inline-block;
+    text-decoration: none;
+    color: #000000;
+    padding: 1px 6px 1px 6px;
+    border-top: 2px solid #858585;
+    border-right: 2px solid #000000;
+    border-bottom: 2px solid #000000;
+    border-left: 2px solid #858585;
 }
 
 .hidden_input {

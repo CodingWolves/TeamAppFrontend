@@ -9,6 +9,7 @@ import { PasswordInput } from "./PasswordInput"
 
 export const SignUp = (props) => {
     const [coursesOptions, setCoursesOptions] = useState([]);
+    const [userDetails, setUserDetails] = useState();
 
     const [mail, setMail] = useState();
     const [password, setPassword] = useState();
@@ -20,9 +21,12 @@ export const SignUp = (props) => {
     const [imgSrc, setImgSrc] = useState({file: require("../images/add-photo.png")});
     const [imageBase64, setImageBase64] = useState();
     
-    console.log(props.location.state)
     const forLabel = (window.cordova.platformId === "browser" ? "browser" : "not-browser")
-    var userUpdate = props.location.state !== undefined ? (true, userDetails()) : false
+    var userUpdate = false
+    if (props.location.state !== undefined) {
+        userUpdate = true
+        getUserDetails()
+    }
     
     useEffect(() => {
         axios.get(serverUrl + "/courses").then(res => {
@@ -30,12 +34,13 @@ export const SignUp = (props) => {
         })
     }, []);
 
-    function userDetails() {
+    function getUserDetails() {
         console.log("getUserDetails")
-        axios.get(serverUrl + "/user/details").then(res => {
+        axios.get(serverUrl + "/user/details", { withCredentials: true }).then(res => {
             console.log(res)
-        }, erroe => {
-            console.log(erroe);
+            setUserDetails(res.data)
+        }, error => {
+            console.log(error.response.data.error);
         })
     }
 
@@ -84,7 +89,8 @@ export const SignUp = (props) => {
         }
         
         if (flag === 0) {
-            axios.post(serverUrl + "/signUp", {
+            axios.post(serverUrl + "/signUp",  {
+                withCredentials: true,
                 email: mail,
                 name: name,
                 password: password,
@@ -94,14 +100,18 @@ export const SignUp = (props) => {
                 interested: interested
             }).then(res => {
                 console.log(res);
-                // alert("user created, welcome " + name)
+                localStorage.setItem('userName', res.data.name);
             }, error => {
-                alert(error);
-                e.preventDefault();
+                alert(error.response.data.error)
+                e.preventDefault()
             });
         } else {
             e.preventDefault();
         }
+    }
+
+    const update = (e) => {
+
     }
 
     const convertImgToBase64 = (url, callback, outputFormat) => {
@@ -244,8 +254,9 @@ export const SignUp = (props) => {
                     display: "flexbox", margin: "1px 0 0 0", textAlign: "center"}}>
                 </p>
                 
-                <Link to={{ pathname: "/dashboard", state: { name } }} >
-                    <button className="form_button" onClick={ signUp }>{userUpdate ? "Update" : "Sign Up"}</button>
+                <Link className="link_to_button form_button" onClick={ userUpdate ? update : signUp }
+                    to="/dashboard"> {userUpdate ? "Update" : "Sign Up"}
+                    {/* <button className="form_button" onClick={ signUp }>{userUpdate ? "Update" : "Sign Up"}</button> */}
                 </Link>
             </form>
         </div>
