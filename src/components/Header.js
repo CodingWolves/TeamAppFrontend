@@ -24,7 +24,6 @@ export const Header = (props) => (
                 <Link to={{ pathname: "/signUp", state: { isUserUpdate: true } }}>
                     <button className="header_button">Hello {localStorage.getItem("userName")}</button>
                 </Link>
-                {/* <span className="header_hello_text">Hello Nadav</span> */}
             </div>
         }
     </div>

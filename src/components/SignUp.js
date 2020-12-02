@@ -11,7 +11,7 @@ export const SignUp = (props) => {
     const [coursesOptions, setCoursesOptions] = useState([]);
     const [userDetails, setUserDetails] = useState();
 
-    const [mail, setMail] = useState();
+    const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
     const [name, setName] = useState();
@@ -25,31 +25,50 @@ export const SignUp = (props) => {
     var userUpdate = false
     if (props.location.state !== undefined) {
         userUpdate = true
-        getUserDetails()
     }
     
     useEffect(() => {
+        if (userUpdate) {
+            getUserDetails()
+        }
+        
         axios.get(serverUrl + "/courses").then(res => {
             setCoursesOptions([{value: "0", label: "All"}, ...res.data])
+        }, error => {
+            console.log(error.response.data.error);
         })
     }, []);
 
-    function getUserDetails() {
+    const getUserDetails = () => {
         console.log("getUserDetails")
         axios.get(serverUrl + "/user/details", { withCredentials: true }).then(res => {
-            console.log(res)
             setUserDetails(res.data)
+            
+            setName(res.data.name)
+            setEmail(res.data.email)
+            setDegree(res.data.degree)
+            setInstitution(res.data.institution)
+            setInterested(res.data.interested)
+            setImgSrc(res.data.image)
+            setImageBase64(res.data.image)
+
+            document.getElementById("name").value = res.data.name
+            document.getElementById("email").value = res.data.email
+            document.getElementById("degree").value = res.data.degree
+            document.getElementById("institution").value = res.data.institution
+            document.getElementById("userPhoto").src = res.data.image
+            console.log(userDetails, " ", res.data.interested)
         }, error => {
             console.log(error.response.data.error);
         })
     }
 
     const signUp = (e) => {
-        console.log(mail, password, confirmPassword, name, degree, institution, interested);
+        console.log(email, password, confirmPassword, name, degree, institution, interested);
         clearError()
         let flag = 0;
 
-        if (mail === "" || mail === undefined) {
+        if (email === "" || email === undefined) {
             showError("Please enter your email address")
             flag = 1
         }
@@ -90,28 +109,69 @@ export const SignUp = (props) => {
         
         if (flag === 0) {
             axios.post(serverUrl + "/signUp",  {
-                withCredentials: true,
-                email: mail,
+                email: email,
                 name: name,
                 password: password,
                 degree: degree,
                 institution: institution,
                 image: imageBase64,
                 interested: interested
-            }).then(res => {
+            },  
+            { withCredentials: true }
+            ).then(res => {
                 console.log(res);
                 localStorage.setItem('userName', res.data.name);
+                window.location.assign("/#/dashboard")
             }, error => {
                 alert(error.response.data.error)
-                e.preventDefault()
             });
-        } else {
-            e.preventDefault();
         }
+        e.preventDefault()
     }
 
     const update = (e) => {
+        console.log(userDetails)
+        clearError()
+        let flag = 0
 
+        if (name !== userDetails.name) {
+            flag = 1
+        }
+        if (degree !== userDetails.degree) {
+            flag = 1
+        }
+        if (institution !== userDetails.institution) {
+            flag = 1
+        }
+        if (imageBase64 !== userDetails.image) {
+            flag = 1
+        } else {
+            setImageBase64("")
+        }
+        console.log(interested, ", ", userDetails.interested)
+        console.log(JSON.stringify(interested) != JSON.stringify(userDetails.interested))
+        if (JSON.stringify(interested) != JSON.stringify(userDetails.interested)) {    
+            flag = 1
+        }
+
+        if (flag === 1) {
+            axios.put(serverUrl + "/user/update",  {
+                name: name,
+                degree: degree,
+                institution: institution,
+                image: imageBase64,
+                interested: interested
+            },  
+            { withCredentials: true }
+            ).then(res => {
+                console.log(res);
+                localStorage.setItem('userName', res.data.name);
+                window.location.assign("/#/dashboard")
+            }, error => {
+                alert(error.response.data.error)
+            });
+            e.preventDefault()
+        }       
     }
 
     const convertImgToBase64 = (url, callback, outputFormat) => {
@@ -187,7 +247,7 @@ export const SignUp = (props) => {
             setInterested(coursesOptions.slice(1, coursesOptions.length))
             return
         }
-        
+        //to check if setInterested(e) is good here
         if (e.length < interested.length) {
             setInterested(e)
             return
@@ -197,7 +257,7 @@ export const SignUp = (props) => {
     }
     
     return  (
-        <div>
+        <div> {console.log(userDetails, " ", interested)}
             <Header isInSignIn={true} />
 
             <span className="title_form">{userUpdate ? "Update" : "Sign Up"}</span>
@@ -208,9 +268,9 @@ export const SignUp = (props) => {
                 />
                 <br />
                 
-                <input className="input_content" id="mail" placeholder="mail" 
+                <input className="input_content" id="email" placeholder="email" 
                     disabled={(userUpdate) ? "disabled" : ""}
-                    onChange={ e => (setMail(e.target.value), clearError()) }
+                    onChange={ e => (setEmail(e.target.value), clearError()) }
                 />
                 <br />
                 

@@ -9,7 +9,7 @@ export const SignIn = () => {
     const [mail, setMail] = useState();
     const [password, setPassword] = useState();
 
-    const signIn = async(e) => {
+    const signIn = (e) => {
         console.log(mail, password);
         clearError()
         let flag = 0;
@@ -24,20 +24,19 @@ export const SignIn = () => {
         }
 
         if (flag === 0) {
-            await axios.post(serverUrl + "/signIn", {
+            axios.post(serverUrl + "/signIn", {
                 withCredentials: true,
                 email: mail,
                 password: password,
-            }).then(res => {
-                console.log(res);
-                localStorage.setItem('userName', res.data.name);
+            }, { withCredentials: true }).then(res => {
+                console.log(res)
+                localStorage.setItem('userName', res.data.name)
+                window.location.assign("/#/dashboard")
             }, error => {
                 alert(error.response.data.error);
-                e.preventDefault();
             });
-        } else {
-            e.preventDefault();
         }
+        e.preventDefault();
     }
 
     return  (

@@ -8,10 +8,10 @@ export const GroupCard = (props) => {
     return  (
         <Link className="small_card" to={{ pathname: "/group", state: { groupId } }}>
             <div className="card_content">
-                <h2 style={{ fontSize: 20 }}><b>{props.group.groupName}</b></h2> 
-                <p style={{ fontSize: 25 }}>{props.group.course}, {props.group.subject}</p>
+                <h2 style={{ fontSize: 20 }}><b>{props.group.name}</b></h2> 
+                <p style={{ fontSize: 25 }}>{props.group.course.value}, {props.group.subject}</p>
                 <h3 style={{ fontSize: 15, textAlign: "left" }}>
-                    {!props.group.together && "Not "}Study together
+                    {!props.group.studyTogether && "Not "}Study together
                 </h3>
             </div>
         </Link>
