@@ -43,7 +43,7 @@ export const Dashboard = () => {
             setGroups(originGroups)
             return
         }
-        
+
         var newGroups = []
         newGroups.push(e.value)
 
@@ -59,11 +59,9 @@ export const Dashboard = () => {
                 placeholder="Search group"
                 onChange={ selectGroup }
             />
-            {console.log(groups)}
             
             <div className="groups">
                 {groups.map(group => (
-                    console.log(group),
                     <GroupCard group={group} />
                 ))}
             </div>

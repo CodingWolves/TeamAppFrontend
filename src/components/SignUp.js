@@ -257,7 +257,7 @@ export const SignUp = (props) => {
     }
     
     return  (
-        <div> {console.log(userDetails, " ", interested)}
+        <div>
             <Header isInSignIn={true} />
 
             <span className="title_form">{userUpdate ? "Update" : "Sign Up"}</span>
